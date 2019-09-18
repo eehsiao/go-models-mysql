@@ -1,10 +1,56 @@
 # go-models-mysql
 `go-models-mysql` its lite and easy model.
 
+## Features
+* Field scanning has become easier since the original driver was extended.
+Assumption: we have 5 fields to scan
+```go
+type Tb struct {
+	field0 sql.NullString,
+	field1 sql.NullString,
+	field2 sql.NullString,
+	field3 sql.NullString,
+	field4 sql.NullString,
+}
+```
+
+In original driver, it can't dynamic. how many fields, that you must write fields many how. it you have 20 fileds, you must write 20 times.
+```go
+var tb Tb
+err = rows.Scan(&tb.field0, &tb.field1, &tb.field2, &tb.field3, &tb.field4)
+```
+
+In go-models-mysql , you just fill struct nil pointer.
+```go
+if val, err = myDao.ScanRowType(row, (*Tb)(nil)); err == nil {
+	u, _ := val.(*Tb)
+	fmt.Println("Tb", u)
+}
+```
+
+* DAO layer let you operate mysql more Intuitively.
+	* Original driver (sql.DB) was extended, so you can operate original commands.
+		* ex: Query, QueryRow, Exec ....
+	* Import the sqlbuilder that help access sql db easily.
+	```go
+	myDao.Select("Host", "User", "Select_priv").From("user").Where("User='root'").Limit(1)
+	```
+	* Set the default table in DAO, that you can design your dao layer friendly.
+	```go
+	// set a struct for dao as default model (option)
+	// (*UserTb)(nil) : nil pointer of the UserTb struct
+	// "user" : is real table name in the db
+	myUserDao.SetDefaultModel((*UserTb)(nil), "user")
+
+	// call model's Get() , get all rows in user table
+	// return (rows *sql.Rows, err error)
+	rows, err = myDao.Get()
+	```
+
 ## Requirements
-    * Go 1.12 or higher.
-    * [database/sql](https://golang.org/pkg/database/sql/) package
-    * [go-sql-driver/mysql](https://github.com/go-sql-driver/mysql) package
+* Go 1.12 or higher.
+* [database/sql](https://golang.org/pkg/database/sql/) package
+* [go-sql-driver/mysql](https://github.com/go-sql-driver/mysql) package
 
 ## Go-Module
 create `go.mod` file in your package folder, and fill below
