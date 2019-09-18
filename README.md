@@ -14,7 +14,7 @@ type Tb struct {
 }
 ```
 
-In original driver, it can't dynamic. how many fields, that you must write fields many how. it you have 20 fileds, you must write 20 times.
+In original driver, it can't dynamic. how many fields, that you must write fields many how. if you have 20 fileds, you must write 20 times.
 ```go
 var tb Tb
 err = rows.Scan(&tb.field0, &tb.field1, &tb.field2, &tb.field3, &tb.field4)
