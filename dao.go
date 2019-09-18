@@ -119,6 +119,9 @@ func (dao *Dao) ScanRow(row *sql.Row) (t interface{}, err error) {
 
 func (dao *Dao) Get() (rows *sql.Rows, err error) {
 	if !dao.IsHadBuildedSQL() {
+		if !dao.IsHasSelects() {
+			dao.Select(lib.Struce4Query(dao.DaoStructType))
+		}
 		if !dao.CanBuildSelect() {
 			return nil, errors.New("cannot select")
 		}
@@ -135,6 +138,9 @@ func (dao *Dao) Get() (rows *sql.Rows, err error) {
 
 func (dao *Dao) GetRow() (row *sql.Row, err error) {
 	if !dao.IsHadBuildedSQL() {
+		if !dao.IsHasSelects() {
+			dao.Select(lib.Struce4Query(dao.DaoStructType))
+		}
 		if !dao.CanBuildSelect() {
 			return nil, errors.New("cannot select")
 		}
