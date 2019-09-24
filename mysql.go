@@ -1,4 +1,5 @@
 // Author :		Eric<eehsiao@gmail.com>
+// Desc.  :		mysql dao extend by mysql.Config & sql.DB
 
 package mysql
 
