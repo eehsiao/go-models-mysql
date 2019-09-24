@@ -9,4 +9,3 @@ services:
       - MYSQL_ROOT_PASSWORD=mYaDmin
     ports:
       - "3306:3306"
-      
