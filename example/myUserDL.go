@@ -58,6 +58,13 @@ func (m *MyUserDao) GetUsers() (users []*UserTb, err error) {
 		rows *sql.Rows
 	)
 
+	defer func() {
+		if rows != nil {
+			rows.Close()
+		}
+		rows, vals = nil, nil
+	}()
+
 	if rows, err = m.Get(); err == nil {
 		if vals, err = m.Scan(rows); err == nil {
 			for _, v := range vals {
@@ -65,9 +72,7 @@ func (m *MyUserDao) GetUsers() (users []*UserTb, err error) {
 				users = append(users, u)
 			}
 		}
-		rows.Close()
 	}
-	rows, vals = nil, nil
 
 	return
 }

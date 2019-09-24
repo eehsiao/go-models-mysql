@@ -26,6 +26,7 @@ func main() {
 	myUserDao := &MyUserDao{
 		Dao: mysql.NewDao().SetConfig("root", "mYaDmin", "127.0.0.1:3306", "mysql").OpenDB(),
 	}
+	defer myUserDao.Close()
 
 	// example 1 : use sql builder
 	sets := map[string]interface{}{"foo": 1, "bar": "2", "test": true}
