@@ -6,7 +6,7 @@ import (
 	"database/sql"
 	"fmt"
 
-	lib "github.com/eehsiao/go-models-lib"
+	model "github.com/eehsiao/go-models"
 	mysql "github.com/eehsiao/go-models-mysql"
 )
 
@@ -51,7 +51,7 @@ func (m *MyUserDao) GetFirstUser() (user *UserTb, err error) {
 // sample data logical function to get the all users
 func (m *MyUserDao) GetUsers() (users []*UserTb, err error) {
 
-	m.Select(lib.Struce4QuerySlice(m.DaoStructType)...).From(m.GetTbName()).Limit(3)
+	m.Select(model.Struce4QuerySlice(m.DaoStructType)...).From(m.GetTbName()).Limit(3)
 	fmt.Println("GetUsers", m.BuildSelectSQL().BuildedSQL())
 	var (
 		vals []interface{}
